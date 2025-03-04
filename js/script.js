@@ -1,9 +1,9 @@
 const overview = document.querySelector(".overview")
 // This div is where your profile information will appear
+const displayRepos = document.querySelector(".repo-list")
+// global variable to select the unordered list to display the repos list
 
 const username = "SharokM";
-
-
 
 // async function to fetch information from GitHub profile
 const getGitHubInfo = async function () {
@@ -13,9 +13,6 @@ const getGitHubInfo = async function () {
     UserInfo(data);
 }
 getGitHubInfo();
-
-
-
 
 // display the fetched user information on the page.
 const UserInfo = function (data) {
@@ -31,112 +28,24 @@ const UserInfo = function (data) {
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div>`;
     overview.append(UserInfoDiv);
+    repoFetcher();
 };
 
+// async function to fetch your repos
+const repoFetcher = async function () {
+    const repores = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+    const repoData = await repores.json();
+    console.log(repoData);
+    repoInfo(repoData);
+}
+// repoFetcher();
 
-
-
-// API-
-// {login: 'SharokM', id: 81240795, node_id: 'MDQ6VXNlcjgxMjQwNzk1', avatar_url: 'https://avatars.githubusercontent.com/u/81240795?v=4', gravatar_id: '', …}
-// avatar_url
-// : 
-// "https://avatars.githubusercontent.com/u/81240795?v=4"
-// bio
-// : 
-// "Baby coder  👶\r\n\r\nAlways looking for inspiration and new examples to learn from  🤓 \r\n\r\nLearning fullstack technologies 📝 so advice and hints always welcome!"
-// blog
-// : 
-// ""
-// company
-// : 
-// null
-// created_at
-// : 
-// "2021-03-23T13:00:10Z"
-// email
-// : 
-// null
-// events_url
-// : 
-// "https://api.github.com/users/SharokM/events{/privacy}"
-// followers
-// : 
-// 1
-// followers_url
-// : 
-// "https://api.github.com/users/SharokM/followers"
-// following
-// : 
-// 1
-// following_url
-// : 
-// "https://api.github.com/users/SharokM/following{/other_user}"
-// gists_url
-// : 
-// "https://api.github.com/users/SharokM/gists{/gist_id}"
-// gravatar_id
-// : 
-// ""
-// hireable
-// : 
-// null
-// html_url
-// : 
-// "https://github.com/SharokM"
-// id
-// : 
-// 81240795
-// location
-// : 
-// "UK"
-// login
-// : 
-// "SharokM"
-// name
-// : 
-// "Sharok"
-// node_id
-// : 
-// "MDQ6VXNlcjgxMjQwNzk1"
-// organizations_url
-// : 
-// "https://api.github.com/users/SharokM/orgs"
-// public_gists
-// : 
-// 0
-// public_repos
-// : 
-// 38
-// received_events_url
-// : 
-// "https://api.github.com/users/SharokM/received_events"
-// repos_url
-// : 
-// "https://api.github.com/users/SharokM/repos"
-// site_admin
-// : 
-// false
-// starred_url
-// : 
-// "https://api.github.com/users/SharokM/starred{/owner}{/repo}"
-// subscriptions_url
-// : 
-// "https://api.github.com/users/SharokM/subscriptions"
-// twitter_username
-// : 
-// null
-// type
-// : 
-// "User"
-// updated_at
-// : 
-// "2025-03-04T15:07:11Z"
-// url
-// : 
-// "https://api.github.com/users/SharokM"
-// user_view_type
-// : 
-// "public"
-// [[Prototype]]
-// : 
-// Object
+// function to display information about each repo
+const repoInfo = function (repos) {
+    for (const repo of repos) {
+        let li = document.createElement("li")
+        li.classList.add("repo");
+        li.innerHTML = `<h3>${repo.name}<h3>`;
+        displayRepos.append(li)
+    }
+}
