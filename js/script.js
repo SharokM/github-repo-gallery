@@ -6,6 +6,12 @@ const repos = document.querySelector(".repos")
 // global variable where all your repo information appears
 const individualRepoData = document.querySelector(".repo-data")
 // global variable where the individual repo data will appear
+const backToRepo = document.querySelector(".view-repos")
+// variable to select the Back to Repo Gallery button. 
+const filterInput = document.querySelector(".filter-repos");
+// to select the input with the “Search by name” placeholder.
+// const allRepos = document.querySelectorAll(".repo")
+// // select ALL elements on the page with a class of “repo”
 
 const username = "SharokM";
 
@@ -46,8 +52,9 @@ const repoFetcher = async function () {
 }
 // repoFetcher();
 
-// function to display information about each repo
+// function to display information about each/all repo
 const repoInfo = function (repos) {
+    filterInput.classList.remove("hide");
     for (const repo of repos) {
         let li = document.createElement("li")
         li.classList.add("repo");
@@ -85,7 +92,7 @@ const specrepoinfo = async function (repoName) {
 displaySpecRepoInfo(repoInfo, languages);
 }
 
-// function to DISPLAY the specific repo data after a user clicks on the repo name.
+// function to DISPLAY the specific/ individual repo data after a user clicks on the repo name.
 displaySpecRepoInfo = function (specData, languages) {
     individualRepoData.innerHTML = "";
     individualRepoData.classList.remove("hide");
@@ -99,4 +106,34 @@ displaySpecRepoInfo = function (specData, languages) {
     <a class="visit" href="${specData.url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
    
     individualRepoData.append(specDiv)
+
+    backToRepo.classList.remove("hide");
 }
+
+// click event attached to the Back to Repo Gallery button - returning to home
+// repos=allreposcontainer
+backToRepo.addEventListener("click", function (){
+    repos.classList.remove("hide");
+    individualRepoData.classList.add("hide");
+    backToRepo.classList.add("hide");
+
+})
+
+// the search input box to return repos 
+filterInput.addEventListener("input", function (e) {
+    const searchText = e.target.value;
+    console.log(searchText);
+    const allRepos = document.querySelectorAll(".repo")
+    // select ALL elements on the page with a class of “repo”
+    const searchLowerText = searchText.toLowerCase();
+
+    for (let repo of allRepos) {
+        const lowerCaseText = repo.innerText.toLowerCase();
+        if (lowerCaseText.includes(searchLowerText)) {
+            repo.classList.remove("hide");
+        } else {
+            repo.classList.add("hide");
+    }
+}
+})
+
