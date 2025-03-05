@@ -2,8 +2,14 @@ const overview = document.querySelector(".overview")
 // This div is where your profile information will appear
 const displayRepos = document.querySelector(".repo-list")
 // global variable to select the unordered list to display the repos list
+const repos = document.querySelector(".repos")
+// global variable where all your repo information appears
+const individualRepoData = document.querySelector(".repo-data")
+// global variable where the individual repo data will appear
 
 const username = "SharokM";
+
+
 
 // async function to fetch information from GitHub profile
 const getGitHubInfo = async function () {
@@ -48,4 +54,49 @@ const repoInfo = function (repos) {
         li.innerHTML = `<h3>${repo.name}<h3>`;
         displayRepos.append(li)
     }
+}
+
+
+// event listener to allow user to click on an individual repo’s title & show the repo info
+// repoList=displayRepos
+displayRepos.addEventListener("click", function (e){
+    if (e.target.matches("h3")) {
+        let repoName = e.target.innerText; 
+        specrepoinfo(repoName);
+    }
+})
+
+// async function to PULL specific data about the individual repos
+// repoInfo=specData
+const specrepoinfo = async function (repoName) {
+    const response = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
+    const specData = await response.json();
+    console.log(specData);
+
+    const fetchLanguages = await fetch('https://api.github.com/repos/SharokM/recipe-card/languages')
+    const languageData = await fetchLanguages.json();
+    console.log(languageData);
+
+    const languages = [];
+    for (let language in languageData) {
+    languages.push(language)
+        // console.log(languageData[key])
+}
+displaySpecRepoInfo(repoInfo, languages);
+}
+
+// function to DISPLAY the specific repo data after a user clicks on the repo name.
+displaySpecRepoInfo = function (specData, languages) {
+    individualRepoData.innerHTML = "";
+    individualRepoData.classList.remove("hide");
+    repos.classList.add("hide");
+    let specDiv = document.createElement("div");
+    
+    specDiv.innerHTML = `<h3>Name: ${specData.name}</h3>
+    <p>Description: ${specData.description}</p>
+    <p>Default Branch: ${specData.branch}</p>
+    <p>Languages: ${languages.join(", ")}</p>
+    <a class="visit" href="${specData.url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
+   
+    individualRepoData.append(specDiv)
 }
