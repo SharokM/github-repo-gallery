@@ -40,15 +40,15 @@ const UserInfo = function (data) {
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div>`;
     overview.append(UserInfoDiv);
-    repoFetcher();
+    repoFetcher(username);
 };
 
 // async function to fetch your repos
-const repoFetcher = async function () {
+const repoFetcher = async function (username) {
     const repores = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
-    const repoData = await repores.json();
-    console.log(repoData);
-    repoInfo(repoData);
+    const individualRepoData = await repores.json();
+    // console.log(repoData);
+    repoInfo(individualRepoData);
 }
 // repoFetcher();
 
@@ -62,7 +62,6 @@ const repoInfo = function (repos) {
         displayRepos.append(li)
     }
 }
-
 
 // event listener to allow user to click on an individual repo’s title & show the repo info
 // repoList=displayRepos
@@ -80,16 +79,16 @@ const specrepoinfo = async function (repoName) {
     const specData = await response.json();
     console.log(specData);
 
-    const fetchLanguages = await fetch('https://api.github.com/repos/SharokM/recipe-card/languages')
+    const fetchLanguages = await fetch(specData.languages_url)
     const languageData = await fetchLanguages.json();
-    console.log(languageData);
+    // console.log(languageData);
 
     const languages = [];
     for (let language in languageData) {
     languages.push(language)
         // console.log(languageData[key])
 }
-displaySpecRepoInfo(repoInfo, languages);
+displaySpecRepoInfo(specData, languages);
 }
 
 // function to DISPLAY the specific/ individual repo data after a user clicks on the repo name.
@@ -97,11 +96,11 @@ displaySpecRepoInfo = function (specData, languages) {
     individualRepoData.innerHTML = "";
     individualRepoData.classList.remove("hide");
     repos.classList.add("hide");
-    let specDiv = document.createElement("div");
+    const specDiv = document.createElement("div");
     
     specDiv.innerHTML = `<h3>Name: ${specData.name}</h3>
     <p>Description: ${specData.description}</p>
-    <p>Default Branch: ${specData.branch}</p>
+    <p>Default Branch: ${specData.default_branch}</p>
     <p>Languages: ${languages.join(", ")}</p>
     <a class="visit" href="${specData.url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
    
@@ -116,13 +115,12 @@ backToRepo.addEventListener("click", function (){
     repos.classList.remove("hide");
     individualRepoData.classList.add("hide");
     backToRepo.classList.add("hide");
-
 })
 
 // the search input box to return repos 
 filterInput.addEventListener("input", function (e) {
     const searchText = e.target.value;
-    console.log(searchText);
+    // console.log(searchText);
     const allRepos = document.querySelectorAll(".repo")
     // select ALL elements on the page with a class of “repo”
     const searchLowerText = searchText.toLowerCase();
