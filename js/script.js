@@ -102,7 +102,7 @@ displaySpecRepoInfo = function (specData, languages) {
     <p>Description: ${specData.description}</p>
     <p>Default Branch: ${specData.default_branch}</p>
     <p>Languages: ${languages.join(", ")}</p>
-    <a class="visit" href="${specData.url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
+    <a class="visit" href="${specData.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
    
     individualRepoData.append(specDiv)
 
