@@ -1,17 +1,10 @@
 const overview = document.querySelector(".overview")
-// This div is where your profile information will appear
 const displayRepos = document.querySelector(".repo-list")
-// global variable to select the unordered list to display the repos list
 const repos = document.querySelector(".repos")
-// global variable where all your repo information appears
 const individualRepoData = document.querySelector(".repo-data")
-// global variable where the individual repo data will appear
 const backToRepo = document.querySelector(".view-repos")
-// variable to select the Back to Repo Gallery button. 
 const filterInput = document.querySelector(".filter-repos");
-// to select the input with the “Search by name” placeholder.
-// const allRepos = document.querySelectorAll(".repo")
-// // select ALL elements on the page with a class of “repo”
+
 
 const username = "SharokM";
 
@@ -64,7 +57,6 @@ const repoInfo = function (repos) {
 }
 
 // event listener to allow user to click on an individual repo’s title & show the repo info
-// repoList=displayRepos
 displayRepos.addEventListener("click", function (e){
     if (e.target.matches("h3")) {
         let repoName = e.target.innerText; 
@@ -73,11 +65,10 @@ displayRepos.addEventListener("click", function (e){
 })
 
 // async function to PULL specific data about the individual repos
-// repoInfo=specData
 const specrepoinfo = async function (repoName) {
     const response = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     const specData = await response.json();
-    console.log(specData);
+    // console.log(specData);
 
     const fetchLanguages = await fetch(specData.languages_url)
     const languageData = await fetchLanguages.json();
@@ -110,7 +101,6 @@ displaySpecRepoInfo = function (specData, languages) {
 }
 
 // click event attached to the Back to Repo Gallery button - returning to home
-// repos=allreposcontainer
 backToRepo.addEventListener("click", function (){
     repos.classList.remove("hide");
     individualRepoData.classList.add("hide");
@@ -122,7 +112,6 @@ filterInput.addEventListener("input", function (e) {
     const searchText = e.target.value;
     // console.log(searchText);
     const allRepos = document.querySelectorAll(".repo")
-    // select ALL elements on the page with a class of “repo”
     const searchLowerText = searchText.toLowerCase();
 
     for (let repo of allRepos) {
