@@ -14,7 +14,6 @@ const username = "SharokM";
 const getGitHubInfo = async function () {
     const res = await fetch(`https://api.github.com/users/${username}`);
     const data = await res.json();
-    // console.log(data);
     UserInfo(data);
 }
 getGitHubInfo();
@@ -40,7 +39,6 @@ const UserInfo = function (data) {
 const repoFetcher = async function (username) {
     const repores = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     const individualRepoData = await repores.json();
-    // console.log(repoData);
     repoInfo(individualRepoData);
 }
 // repoFetcher();
@@ -68,16 +66,13 @@ displayRepos.addEventListener("click", function (e){
 const specrepoinfo = async function (repoName) {
     const response = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     const specData = await response.json();
-    // console.log(specData);
 
     const fetchLanguages = await fetch(specData.languages_url)
     const languageData = await fetchLanguages.json();
-    // console.log(languageData);
 
     const languages = [];
     for (let language in languageData) {
     languages.push(language)
-        // console.log(languageData[key])
 }
 displaySpecRepoInfo(specData, languages);
 }
@@ -121,6 +116,6 @@ filterInput.addEventListener("input", function (e) {
         } else {
             repo.classList.add("hide");
     }
-}
+} 
 })
 
