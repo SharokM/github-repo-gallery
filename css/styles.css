@@ -8,7 +8,7 @@ body {
   justify-content: center;
   margin: 0;
   font-family: "Open Sans", sans-serif;
-  background-color: #fbf9de;
+  background-color: #0d0d0a;
   color: #333;
   font-size: 16px;
 }
@@ -180,13 +180,14 @@ section.repo-data {
 .repo-list li {
   width: 90%;
   margin: 1em 0;
-  border: 1px solid #f86d58;
+  border: 1px solid #100e0d;
   padding: 0.5em;
 }
 
 .repo-list h3 {
-  text-align: left;
+  text-align: center;
   margin: 0;
+  font-size: smaller;
   padding: 10px;
 }
 
